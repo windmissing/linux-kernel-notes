@@ -1,0 +1,831 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Linux2.4文件系统中vfsmount、安装点的dentry、设备的dentry之间的关系 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="windmissing">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-katex-plus/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-sectionx/sectionx.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-click-reveal/click_reveal.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="2012-05-15-file-sys_umount.html" />
+    
+    
+    <link rel="prev" href="2012-05-14-install-a-file-system-in-linux2.4.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"windmissing/linux-kernel-notes","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    linux 0.12
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../0_12/2012-02-20-memory-addressing.html">
+            
+                <a href="../0_12/2012-02-20-memory-addressing.html">
+            
+                    
+                    Linux0.12-内存寻址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../0_12/2012-02-26-boot.html">
+            
+                <a href="../0_12/2012-02-26-boot.html">
+            
+                    
+                    Linux0.12引导启动程序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../0_12/2012-03-08-task-scheduler.html">
+            
+                <a href="../0_12/2012-03-08-task-scheduler.html">
+            
+                    
+                    Linux0.12任务调度与进程切换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../0_12/2012-04-22-file-system.html">
+            
+                <a href="../0_12/2012-04-22-file-system.html">
+            
+                    
+                    Linux0.12-文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../0_12/2012-04-23-file-system-basic-common-function-in-linux-0.12">
+            
+                <span>
+            
+                    
+                    linux0.12-文件系统-底层通用函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../0_12/2012-04-23-file-system-data-access.html">
+            
+                <a href="../0_12/2012-04-23-file-system-data-access.html">
+            
+                    
+                    Linux0.12-文件系统-文件中数据的访问操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="../0_12/2012-04-23-file-system-pipe.html">
+            
+                <a href="../0_12/2012-04-23-file-system-pipe.html">
+            
+                    
+                    Linux0.12-文件系统-管道
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="../0_12/2012-04-23-file-system-system-call.html">
+            
+                <a href="../0_12/2012-04-23-file-system-system-call.html">
+            
+                    
+                    Linux0.12-文件系统-系统调用接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    linux 2.6
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../2_6/2012-03-24-signal.html">
+            
+                <a href="../2_6/2012-03-24-signal.html">
+            
+                    
+                    Linux2.6信号管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../2_6/2012-04-19-sync.html">
+            
+                <a href="../2_6/2012-04-19-sync.html">
+            
+                    
+                    Linux2.6-内核同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../2_6/2012-04-27-virtual-memory-management-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-27-virtual-memory-management-in-linux-2.6.html">
+            
+                    
+                    Linux2.6虚拟内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../2_6/2012-04-28-physical-memory-management-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-28-physical-memory-management-in-linux-2.6.html">
+            
+                    
+                    Linux2.6物理内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../2_6/2012-04-30-malloc-slab-for-data-struct-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-30-malloc-slab-for-data-struct-in-linux-2.6.html">
+            
+                    
+                    Linux2.6为数据结构分配内存-slab
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../2_6/2012-04-30-stack-of-user-space-alloc-and-free-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-30-stack-of-user-space-alloc-and-free-in-linux-2.6.html">
+            
+                    
+                    Linux2.6用户空间堆栈区的分配与回收
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../2_6/2012-05-21-process-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-21-process-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../2_6/2012-05-22-process-create-and-delete-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-22-process-create-and-delete-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程的创建与删除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../2_6/2012-05-22-process-switching-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-22-process-switching-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程切换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../2_6/2012-05-24-deferrable-interrupt-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-24-deferrable-interrupt-in-linux-2.6.html">
+            
+                    
+                    Linux2.6可延迟中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../2_6/2012-05-26-linear-area-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-26-linear-area-in-linux-2.6.html">
+            
+                    
+                    Linux2.6-4G的线性地址空间的分配与使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.12" data-path="../2_6/2012-05-26-process-scheduling-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-26-process-scheduling-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.13" data-path="../2_6/2012-05-29-2G-logical-space-in-linux2.6.html">
+            
+                <a href="../2_6/2012-05-29-2G-logical-space-in-linux2.6.html">
+            
+                    
+                    Linux2.6 逻辑空间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.14" data-path="../2_6/2012-05-29-system-call-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-29-system-call-in-linux-2.6.html">
+            
+                    
+                    Linux2.6系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.15" data-path="../2_6/2012-06-04-IO-architecture-in-linux2.6.html">
+            
+                <a href="../2_6/2012-06-04-IO-architecture-in-linux2.6.html">
+            
+                    
+                    Linux2.6 I/O体系结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="../2_6/2012-06-05-device-management-in-linux2.6.html">
+            
+                <a href="../2_6/2012-06-05-device-management-in-linux2.6.html">
+            
+                    
+                    Linux2.6设备管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.17" data-path="../2_6/2012-06-09-block-device-driver-linux2.6.html">
+            
+                <a href="../2_6/2012-06-09-block-device-driver-linux2.6.html">
+            
+                    
+                    Linux2.6块设备驱动程序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.18" data-path="../2_6/2016-05-23-interrupt-and-abnormal-in-linux-2.6.html">
+            
+                <a href="../2_6/2016-05-23-interrupt-and-abnormal-in-linux-2.6.html">
+            
+                    
+                    Linux2.6中断与异常
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.18.1" data-path="../2_6/2012-06-01-virtual-file-system.html">
+            
+                <a href="../2_6/2012-06-01-virtual-file-system.html">
+            
+                    
+                    Linux2.6虚拟文件系统VFS
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    linux 2.4代码笔记
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="2012-05-08-sys_execve.html">
+            
+                <a href="2012-05-08-sys_execve.html">
+            
+                    
+                    Linux2.4系统调用sys_execve
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="2012-05-11-route-from-path-name-to-file-node-in-linux2.4.html">
+            
+                <a href="2012-05-11-route-from-path-name-to-file-node-in-linux2.4.html">
+            
+                    
+                    Linux2.4从路径名到目标结点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="2012-05-14-install-a-file-system-in-linux2.4.html">
+            
+                <a href="2012-05-14-install-a-file-system-in-linux2.4.html">
+            
+                    
+                    Linux2.4安装一个文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.4" data-path="2012-05-14-vfsmount-dentry-summarise-in-linux-2.4.html">
+            
+                <a href="2012-05-14-vfsmount-dentry-summarise-in-linux-2.4.html">
+            
+                    
+                    Linux2.4文件系统中vfsmount、安装点的dentry、设备的dentry之间的关系
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="2012-05-15-file-sys_umount.html">
+            
+                <a href="2012-05-15-file-sys_umount.html">
+            
+                    
+                    Linux2.4文件系统的卸载
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="2012-05-21-system-call-to-open-a-file-in-linux-2.4.html">
+            
+                <a href="2012-05-21-system-call-to-open-a-file-in-linux-2.4.html">
+            
+                    
+                    Linux2.4打开一个文件的系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Linux2.4文件系统中vfsmount、安装点的dentry、设备的dentry之间的关系</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h4 id="1vfsmount&#x3001;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x3001;&#x8BBE;&#x5907;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><a name="1vfsmount&#x3001;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x3001;&#x8BBE;&#x5907;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;" class="anchor-navigation-ex-anchor" href="#1vfsmount&#x3001;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x3001;&#x8BBE;&#x5907;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><i class="fa fa-link" aria-hidden="true"></i></a>1.vfsmount&#x3001;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x3001;&#x8BBE;&#x5907;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;</h4>
+<p><img src="http://my.csdn.net/uploads/201205/14/1337003692_2514.gif" alt=""><br>&#xFF08;1&#xFF09;&#x4E00;&#x4E2A;&#x5B89;&#x88C5;&#x70B9;&#x53EF;&#x4EE5;&#x5B89;&#x88C5;&#x591A;&#x4E2A;&#x8BBE;&#x5907;<br>&#xFF08;2&#xFF09;&#x4E00;&#x4E2A;&#x8BBE;&#x5907;&#x53EF;&#x4EE5;&#x5B89;&#x88C5;&#x5230;&#x591A;&#x4E2A;&#x5B89;&#x88C5;&#x70B9;&#x4E0A;  </p>
+<h4 id="2vfsmount&#x4E0E;vfsmount&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><a name="2vfsmount&#x4E0E;vfsmount&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;" class="anchor-navigation-ex-anchor" href="#2vfsmount&#x4E0E;vfsmount&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><i class="fa fa-link" aria-hidden="true"></i></a>2.vfsmount&#x4E0E;vfsmount&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;</h4>
+<p><img src="http://my.csdn.net/uploads/201205/14/1337003764_9311.gif" alt=""></p>
+<h4 id="3vfsmount&#x4E0E;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><a name="3vfsmount&#x4E0E;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;" class="anchor-navigation-ex-anchor" href="#3vfsmount&#x4E0E;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><i class="fa fa-link" aria-hidden="true"></i></a>3.vfsmount&#x4E0E;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;</h4>
+<p>&#x56FE;&#x592A;&#x96BE;&#x753B;&#xFF0C;&#x4EC5;&#x5199;&#x51FA;&#x5173;&#x7CFB;&#xFF0C;&#x56FE;&#x89C1;&#x7B14;&#x8BB0;&#x672C;<br>&#xFF08;1&#xFF09;vfsmount-&gt;mnt_mountpoint&#x6307;&#x5411;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry<br>&#xFF08;2&#xFF09;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry-&gt;d_vfsmount&#x6307;&#x5411;&#x540C;&#x4E00;&#x5B89;&#x88C5;&#x70B9;&#x7684;&#x591A;&#x4E2A;&#x5B89;&#x88C5;&#x7ED3;&#x6784;&#x7684;&#x961F;&#x5217;&#x5934;<br>&#xFF08;3&#xFF09;vfsmount-&gt;mnt_clash&#x6307;&#x5411;(2)&#x4E2D;&#x7684;&#x961F;&#x5217;&#x5934;  </p>
+<h4 id="4vfsmount&#x4E0E;&#x8BBE;&#x5907;&#x7684;dentry&#x7684;&#x5173;&#x7CFB;"><a name="4vfsmount&#x4E0E;&#x8BBE;&#x5907;&#x7684;dentry&#x7684;&#x5173;&#x7CFB;" class="anchor-navigation-ex-anchor" href="#4vfsmount&#x4E0E;&#x8BBE;&#x5907;&#x7684;dentry&#x7684;&#x5173;&#x7CFB;"><i class="fa fa-link" aria-hidden="true"></i></a>4.vfsmount&#x4E0E;&#x8BBE;&#x5907;&#x7684;dentry&#x7684;&#x5173;&#x7CFB;</h4>
+<p>&#xFF08;1&#xFF09;vfsmount-&gt;root&#x6307;&#x5411;&#x6240;&#x5B89;&#x88C5;&#x8BBE;&#x5907;&#x7684;&#x6839;&#x76EE;&#x5F55;&#x7684;dentry<br>&#xFF08;2&#xFF09;vfsmount-&gt;mnt_sb&#x6307;&#x5411;&#x6240;&#x5B89;&#x88C5;&#x8BBE;&#x5907;&#x7684;&#x8D85;&#x7EA7;&#x5757;&#x7684;super_block<br>&#xFF08;3&#xFF09;<code>super_block-&gt;s_mounts</code>&#x6307;&#x5411;&#x5B89;&#x88C5;&#x540C;&#x4E00;&#x8BBE;&#x5907;&#x7684;vfsmount&#x7684;&#x961F;&#x5217;&#x5934;  </p>
+<h4 id="5&#x5B89;&#x88C5;&#x70B9;dentry&#x4E0E;&#x8BBE;&#x5907;dentry&#x7684;&#x5173;&#x7CFB;"><a name="5&#x5B89;&#x88C5;&#x70B9;dentry&#x4E0E;&#x8BBE;&#x5907;dentry&#x7684;&#x5173;&#x7CFB;" class="anchor-navigation-ex-anchor" href="#5&#x5B89;&#x88C5;&#x70B9;dentry&#x4E0E;&#x8BBE;&#x5907;dentry&#x7684;&#x5173;&#x7CFB;"><i class="fa fa-link" aria-hidden="true"></i></a>5.&#x5B89;&#x88C5;&#x70B9;dentry&#x4E0E;&#x8BBE;&#x5907;dentry&#x7684;&#x5173;&#x7CFB;</h4>
+<p><img src="http://my.csdn.net/uploads/201205/14/1337004305_1232.gif" alt=""><br>&#xFF08;1&#xFF09;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x6CA1;&#x6709;&#x76F4;&#x63A5;&#x5173;&#x7CFB;&#xFF0C;&#x901A;&#x8FC7;vfsmount&#x8FDE;&#x63A5;<br>&#xFF08;2&#xFF09;vfsmount-&gt;mnt_mountpoint&#x6307;&#x5411;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry<br>&#xFF08;3&#xFF09;vfsmount-&gt;mount_root&#x6307;&#x5411;&#x6240;&#x5B89;&#x88C5;&#x8BBE;&#x5907;&#x7684;dentry  </p>
+<div id="gitalk-container"></div>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="2012-05-14-install-a-file-system-in-linux2.4.html" class="navigation navigation-prev " aria-label="Previous page: Linux2.4安装一个文件系统">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="2012-05-15-file-sys_umount.html" class="navigation navigation-next " aria-label="Next page: Linux2.4文件系统的卸载">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"layout":"post","title":"Linux2.4文件系统中vfsmount、安装点的dentry、设备的dentry之间的关系","category":["操作系统"],"tags":["linux2.6"],"level":"1.4.4","depth":2,"next":{"title":"Linux2.4文件系统的卸载","level":"1.4.5","depth":2,"path":"2_4/2012-05-15-file-sys_umount.md","ref":"2_4/2012-05-15-file-sys_umount.md","articles":[]},"previous":{"title":"Linux2.4安装一个文件系统","level":"1.4.3","depth":2,"path":"2_4/2012-05-14-install-a-file-system-in-linux2.4.md","ref":"2_4/2012-05-14-install-a-file-system-in-linux2.4.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","katex-plus","alerts","mygitalk","github","github-buttons","splitter","-sharing","sharing-plus","donate","copy-code-button","anchor-navigation-ex","sectionx","click-reveal"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/windmissing/linux-kernel-notes"},"splitter":{},"search":{},"sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"alipay":"http://windmissing.github.io/images/2020/alipay.jpg","alipayText":"支付宝打赏","button":"赏","title":"","wechat":"http://windmissing.github.io/images/2020/weixin.jpg","wechatText":"微信打赏"},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":2},"click-reveal":{},"sectionx":{},"highlight":{},"anchor-navigation-ex":{"mode":"float","pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"showLevel":true,"tocLevel1Icon":"fa fa-hand-o-right","tocLevel2Icon":"fa fa-hand-o-right","tocLevel3Icon":"fa fa-hand-o-right","showGoTop":true,"isShowTocTitleIcon":true,"printLog":false,"multipleH1":true,"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false}},"katex-plus":{},"alerts":{},"github-buttons":{"repo":"windmissing/linux-kernel-notes","types":["star","watch","fork"],"size":"small"},"copy-code-button":{},"mygitalk":{"flipMoveOptions":{},"clientID":"531979adb4f4d8458549","number":-1,"perPage":10,"proxy":"https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token","admin":["windmissing"],"createIssueManually":false,"distractionFreeMode":false,"repo":"linux-kernel-notes","owner":"windmissing","enableHotKey":true,"clientSecret":"1ac38be7411ae8e034bb8fb1b4a297254652141d","pagerDirection":"last","labels":["Gitalk"]},"sharing":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"windmissing","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"3.2.3"},"file":{"path":"2_4/2012-05-14-vfsmount-dentry-summarise-in-linux-2.4.md","mtime":"2020-11-14T13:26:12.508Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-14T13:27:38.435Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+        
+    
+        
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-mygitalk/mygitalk.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing-plus/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-copy-code-button/toggle.js"></script>
+        
+    
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sectionx/sectionx.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-click-reveal/click_reveal.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,843 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Linux2.4从路径名到目标结点 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="windmissing">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-katex-plus/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-sectionx/sectionx.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-click-reveal/click_reveal.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="2012-05-14-install-a-file-system-in-linux2.4.html" />
+    
+    
+    <link rel="prev" href="2012-05-08-sys_execve.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"windmissing/linux-kernel-notes","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    linux 0.12
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../0_12/2012-02-20-memory-addressing.html">
+            
+                <a href="../0_12/2012-02-20-memory-addressing.html">
+            
+                    
+                    Linux0.12-内存寻址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../0_12/2012-02-26-boot.html">
+            
+                <a href="../0_12/2012-02-26-boot.html">
+            
+                    
+                    Linux0.12引导启动程序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../0_12/2012-03-08-task-scheduler.html">
+            
+                <a href="../0_12/2012-03-08-task-scheduler.html">
+            
+                    
+                    Linux0.12任务调度与进程切换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../0_12/2012-04-22-file-system.html">
+            
+                <a href="../0_12/2012-04-22-file-system.html">
+            
+                    
+                    Linux0.12-文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../0_12/2012-04-23-file-system-basic-common-function-in-linux-0.12">
+            
+                <span>
+            
+                    
+                    linux0.12-文件系统-底层通用函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../0_12/2012-04-23-file-system-data-access.html">
+            
+                <a href="../0_12/2012-04-23-file-system-data-access.html">
+            
+                    
+                    Linux0.12-文件系统-文件中数据的访问操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="../0_12/2012-04-23-file-system-pipe.html">
+            
+                <a href="../0_12/2012-04-23-file-system-pipe.html">
+            
+                    
+                    Linux0.12-文件系统-管道
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="../0_12/2012-04-23-file-system-system-call.html">
+            
+                <a href="../0_12/2012-04-23-file-system-system-call.html">
+            
+                    
+                    Linux0.12-文件系统-系统调用接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    linux 2.6
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../2_6/2012-03-24-signal.html">
+            
+                <a href="../2_6/2012-03-24-signal.html">
+            
+                    
+                    Linux2.6信号管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../2_6/2012-04-19-sync.html">
+            
+                <a href="../2_6/2012-04-19-sync.html">
+            
+                    
+                    Linux2.6-内核同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../2_6/2012-04-27-virtual-memory-management-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-27-virtual-memory-management-in-linux-2.6.html">
+            
+                    
+                    Linux2.6虚拟内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../2_6/2012-04-28-physical-memory-management-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-28-physical-memory-management-in-linux-2.6.html">
+            
+                    
+                    Linux2.6物理内存管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../2_6/2012-04-30-malloc-slab-for-data-struct-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-30-malloc-slab-for-data-struct-in-linux-2.6.html">
+            
+                    
+                    Linux2.6为数据结构分配内存-slab
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../2_6/2012-04-30-stack-of-user-space-alloc-and-free-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-04-30-stack-of-user-space-alloc-and-free-in-linux-2.6.html">
+            
+                    
+                    Linux2.6用户空间堆栈区的分配与回收
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../2_6/2012-05-21-process-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-21-process-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../2_6/2012-05-22-process-create-and-delete-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-22-process-create-and-delete-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程的创建与删除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../2_6/2012-05-22-process-switching-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-22-process-switching-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程切换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../2_6/2012-05-24-deferrable-interrupt-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-24-deferrable-interrupt-in-linux-2.6.html">
+            
+                    
+                    Linux2.6可延迟中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../2_6/2012-05-26-linear-area-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-26-linear-area-in-linux-2.6.html">
+            
+                    
+                    Linux2.6-4G的线性地址空间的分配与使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.12" data-path="../2_6/2012-05-26-process-scheduling-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-26-process-scheduling-in-linux-2.6.html">
+            
+                    
+                    Linux2.6进程调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.13" data-path="../2_6/2012-05-29-2G-logical-space-in-linux2.6.html">
+            
+                <a href="../2_6/2012-05-29-2G-logical-space-in-linux2.6.html">
+            
+                    
+                    Linux2.6 逻辑空间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.14" data-path="../2_6/2012-05-29-system-call-in-linux-2.6.html">
+            
+                <a href="../2_6/2012-05-29-system-call-in-linux-2.6.html">
+            
+                    
+                    Linux2.6系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.15" data-path="../2_6/2012-06-04-IO-architecture-in-linux2.6.html">
+            
+                <a href="../2_6/2012-06-04-IO-architecture-in-linux2.6.html">
+            
+                    
+                    Linux2.6 I/O体系结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="../2_6/2012-06-05-device-management-in-linux2.6.html">
+            
+                <a href="../2_6/2012-06-05-device-management-in-linux2.6.html">
+            
+                    
+                    Linux2.6设备管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.17" data-path="../2_6/2012-06-09-block-device-driver-linux2.6.html">
+            
+                <a href="../2_6/2012-06-09-block-device-driver-linux2.6.html">
+            
+                    
+                    Linux2.6块设备驱动程序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.18" data-path="../2_6/2016-05-23-interrupt-and-abnormal-in-linux-2.6.html">
+            
+                <a href="../2_6/2016-05-23-interrupt-and-abnormal-in-linux-2.6.html">
+            
+                    
+                    Linux2.6中断与异常
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.18.1" data-path="../2_6/2012-06-01-virtual-file-system.html">
+            
+                <a href="../2_6/2012-06-01-virtual-file-system.html">
+            
+                    
+                    Linux2.6虚拟文件系统VFS
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    linux 2.4代码笔记
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="2012-05-08-sys_execve.html">
+            
+                <a href="2012-05-08-sys_execve.html">
+            
+                    
+                    Linux2.4系统调用sys_execve
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.2" data-path="2012-05-11-route-from-path-name-to-file-node-in-linux2.4.html">
+            
+                <a href="2012-05-11-route-from-path-name-to-file-node-in-linux2.4.html">
+            
+                    
+                    Linux2.4从路径名到目标结点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="2012-05-14-install-a-file-system-in-linux2.4.html">
+            
+                <a href="2012-05-14-install-a-file-system-in-linux2.4.html">
+            
+                    
+                    Linux2.4安装一个文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="2012-05-14-vfsmount-dentry-summarise-in-linux-2.4.html">
+            
+                <a href="2012-05-14-vfsmount-dentry-summarise-in-linux-2.4.html">
+            
+                    
+                    Linux2.4文件系统中vfsmount、安装点的dentry、设备的dentry之间的关系
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="2012-05-15-file-sys_umount.html">
+            
+                <a href="2012-05-15-file-sys_umount.html">
+            
+                    
+                    Linux2.4文件系统的卸载
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="2012-05-21-system-call-to-open-a-file-in-linux-2.4.html">
+            
+                <a href="2012-05-21-system-call-to-open-a-file-in-linux-2.4.html">
+            
+                    
+                    Linux2.4打开一个文件的系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Linux2.4从路径名到目标结点</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h4 id="0userwalk-------&#x6839;&#x636E;&#x7ED9;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x540D;&#x5728;&#xFF0C;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6216;&#x5EFA;&#x7ACB;&#x4EE3;&#x8868;&#x7740;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#x7684;dentry&#x7ED3;&#x6784;&#x548C;inode&#x7ED3;&#x6784;"><a name="0userwalk-------&#x6839;&#x636E;&#x7ED9;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x540D;&#x5728;&#xFF0C;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6216;&#x5EFA;&#x7ACB;&#x4EE3;&#x8868;&#x7740;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#x7684;dentry&#x7ED3;&#x6784;&#x548C;inode&#x7ED3;&#x6784;" class="anchor-navigation-ex-anchor" href="#0userwalk-------&#x6839;&#x636E;&#x7ED9;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x540D;&#x5728;&#xFF0C;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6216;&#x5EFA;&#x7ACB;&#x4EE3;&#x8868;&#x7740;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#x7684;dentry&#x7ED3;&#x6784;&#x548C;inode&#x7ED3;&#x6784;"><i class="fa fa-link" aria-hidden="true"></i></a>0.<code>__user_walk()</code> -----&gt; &#x6839;&#x636E;&#x7ED9;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x540D;&#x5728;&#xFF0C;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6216;&#x5EFA;&#x7ACB;&#x4EE3;&#x8868;&#x7740;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x6216;&#x76EE;&#x5F55;&#x7684;dentry&#x7ED3;&#x6784;&#x548C;inode&#x7ED3;&#x6784;</h4>
+<p>&#xFF08;1&#xFF09;&#x83B7;&#x5F97;&#x8DEF;&#x5F84;&#x540D;getname()&#xFF1A;&#x5728;&#x4E0A;&#x4E00;&#x7BC7;&#x535A;&#x5BA2;&#x4E2D;&#x6709;&#x4ECB;&#x7ECD;<br>&#xFF08;2&#xFF09;&#x51C6;&#x5907;&#x8DEF;&#x5F84;&#x641C;&#x7D22;path_init()&#xFF1A;&#x89C1;1<br>&#xFF08;3&#xFF09;&#x6CBF;&#x7740;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x6307;&#x5F15;&#x8FDB;&#x884C;&#x641C;&#x7D22;path_walk()&#xFF1A;&#x89C1;2<br>&#xFF08;4&#xFF09;&#x91CA;&#x653E;&#x8DEF;&#x5F84;&#x540D;putname()  </p>
+<h4 id="1pathinit-------&#x51C6;&#x5907;&#x8DEF;&#x5F84;&#x641C;&#x7D22;"><a name="1pathinit-------&#x51C6;&#x5907;&#x8DEF;&#x5F84;&#x641C;&#x7D22;" class="anchor-navigation-ex-anchor" href="#1pathinit-------&#x51C6;&#x5907;&#x8DEF;&#x5F84;&#x641C;&#x7D22;"><i class="fa fa-link" aria-hidden="true"></i></a>1.path_init() -----&gt; &#x51C6;&#x5907;&#x8DEF;&#x5F84;&#x641C;&#x7D22;</h4>
+<p>&#xFF08;1&#xFF09;&#x5C06;vfsmount&#x8BBE;&#x7F6E;&#x4E3A;&#x641C;&#x7D22;&#x8D77;&#x70B9;&#x6240;&#x5728;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x5B89;&#x88C5;&#x4FE1;&#x606F;<br>&#xFF08;2&#xFF09;&#x5C06;dentry&#x8BBE;&#x7F6E;&#x4E3A;&#x641C;&#x7D22;&#x8D77;&#x70B9;&#x7684;&#x76EE;&#x5F55;&#x9879;<br>&#x641C;&#x7D22;&#x8D77;&#x70B9;&#x53EF;&#x4EE5;&#x56E0;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7684;&#x53C2;&#x6570;&#x800C;&#x4E0D;&#x540C;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#xFF0C;&#x6216;&#x662F;&#x6839;&#x76EE;&#x5F55;&#xFF0C;&#x6216;&#x662F;&#x201C;&#x66FF;&#x6362;&#x201D;&#x6839;&#x76EE;&#x5F55;  </p>
+<h4 id="2pathwalk&#xFF1A;&#x6CBF;&#x7740;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x6307;&#x5F15;&#x8FDB;&#x884C;&#x641C;&#x7D22;"><a name="2pathwalk&#xFF1A;&#x6CBF;&#x7740;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x6307;&#x5F15;&#x8FDB;&#x884C;&#x641C;&#x7D22;" class="anchor-navigation-ex-anchor" href="#2pathwalk&#xFF1A;&#x6CBF;&#x7740;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x6307;&#x5F15;&#x8FDB;&#x884C;&#x641C;&#x7D22;"><i class="fa fa-link" aria-hidden="true"></i></a>2.path_walk()&#xFF1A;&#x6CBF;&#x7740;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x6307;&#x5F15;&#x8FDB;&#x884C;&#x641C;&#x7D22;</h4>
+<h4 id="&#x8865;&#x5145;&#xFF1A;"><a name="&#x8865;&#x5145;&#xFF1A;" class="anchor-navigation-ex-anchor" href="#&#x8865;&#x5145;&#xFF1A;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x8865;&#x5145;&#xFF1A;</h4>
+<p>&#x5230;&#x8FBE;&#x7236;&#x8282;&#x70B9;&#xFF1A;<br>&#xFF08;1&#xFF09;&#x82E5;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x662F;&#x672C;&#x8FDB;&#x7A0B;&#x7684;&#x6839;&#x7ED3;&#x70B9;&#xFF0C;&#x5219;&#x4E0D;&#x9700;&#x8981;&#x5904;&#x7406;<br>&#xFF08;2&#xFF09;&#x82E5;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x4E0D;&#x662F;&#x5176;&#x6240;&#x5728;&#x8BBE;&#x5907;&#x7684;&#x6839;&#x7ED3;&#x70B9;&#xFF0C;&#x5219;&#xFF1A;<br>&#x4FEE;&#x6539;&#x5176;dentry&#x6307;&#x9488;&#xFF0C;&#x6307;&#x5411;&#x5176;&#x7236;&#x8282;&#x70B9;&#x7684;&#x76EE;&#x5F55;&#x9879;<br>&#xFF08;3&#xFF09;&#x8FD0;&#x884C;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x8BF4;&#x660E;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x4E00;&#x5B9A;&#x662F;&#x5176;&#x6240;&#x5728;&#x8BBE;&#x5907;&#x7684;&#x6839;&#x8282;&#x70B9;&#xFF0C;&#x82E5;&#x5176;&#x6240;&#x5728;&#x7684;&#x8BBE;&#x5907;&#x662F;&#x6839;&#x8BBE;&#x5907;&#xFF0C;&#x5219;&#x4E0D;&#x9700;&#x8981;&#x5904;&#x7406;<br>&#xFF08;4&#xFF09;&#x8FD0;&#x884C;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x8BF4;&#x660E;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x662F;&#x975E;&#x6839;&#x8BBE;&#x5907;&#x7684;&#x6839;&#x8282;&#x70B9;&#xFF0C;&#x56E0;&#x6B64;&#x8981;&#x5F80;&#x4E0A;&#x8DD1;&#x4E00;&#x5C42;&#x8DD1;&#x5230;&#x5B89;&#x88C5;&#x70B9;&#x7684;&#x4E0A;&#x4E00;&#x5C42;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x5219;&#xFF1A;<br>&#x83B7;&#x5F97;&#x7236;&#x8BBE;&#x5907;&#x7684;vfsmount<br>&#x83B7;&#x5F97;&#x5F53;&#x524D;&#x8BBE;&#x5907;&#x7684;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry<br>&#x91CA;&#x653E;&#x539F;dentry<br>&#x7F6E;&#x4E3A;&#x65B0;&#x7684;dentry<br>&#x91CA;&#x653E;&#x539F;vfsmount<br>&#x7F6E;&#x4E3A;&#x65B0;&#x7684;vfsmount<br>go to step1//&#x518D;&#x5FAA;&#x73AF;&#x4E00;&#x6B21;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x8FD9;&#x91CC;&#x53EA;&#x662F;&#x4ECE;&#x6839;&#x8282;&#x70B9;&#x7684;dentry&#x5F97;&#x5230;&#x5176;&#x5B89;&#x88C5;&#x70B9;&#x7684;dentry&#xFF0C;&#x4F46;&#x4ECE;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x89D2;&#x5EA6;&#x770B;&#xFF0C;&#x5B83;&#x4EEC;&#x662F;&#x7B49;&#x4EF7;&#x7684;  </p>
+<h4 id="3&#x5BF9;&#x4E8E;&#x6B63;&#x5E38;&#x7684;&#x4E2D;&#x95F4;&#x8282;&#x70B9;&#x7684;&#x5904;&#x7406;"><a name="3&#x5BF9;&#x4E8E;&#x6B63;&#x5E38;&#x7684;&#x4E2D;&#x95F4;&#x8282;&#x70B9;&#x7684;&#x5904;&#x7406;" class="anchor-navigation-ex-anchor" href="#3&#x5BF9;&#x4E8E;&#x6B63;&#x5E38;&#x7684;&#x4E2D;&#x95F4;&#x8282;&#x70B9;&#x7684;&#x5904;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>3.&#x5BF9;&#x4E8E;&#x6B63;&#x5E38;&#x7684;&#x4E2D;&#x95F4;&#x8282;&#x70B9;&#x7684;&#x5904;&#x7406;</h4>
+<p>&#xFF08;1&#xFF09;&#x4ECE;&#x6587;&#x4EF6;&#x540D;&#x5F97;&#x5230;&#x5BF9;&#x5E94;&#x7684;dentry<br>&#x5148;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x8FD9;&#x4E2A;dentry&#xFF1A;cached_lookup()&#x89C1;4<br>&#x5982;&#x679C;&#x5185;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x5219;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#xFF0C;&#x5E76;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x6587;&#x4EF6;&#x540D;&#x7684;dentry&#xFF0C;&#x7528;&#x4E8E;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x4E2D;dentry&#x7684;&#x4FE1;&#x606F;&#xFF1A;real_lookup()&#x89C1;5<br>&#xFF08;2&#xFF09;&#x5982;&#x679C;&#x76EE;&#x6807;&#x7ED3;&#x70B9;&#x662F;&#x4E00;&#x4E2A;&#x5B89;&#x88C5;&#x70B9;&#xFF0C;&#x5219;&#x524D;&#x8FDB;&#x5230;&#x6240;&#x5B89;&#x88C5;&#x8BBE;&#x5907;&#x7684;&#x6839;&#x8282;&#x70B9;<br>&#x5982;&#x679C;&#x524D;&#x8FDB;&#x540E;&#x8FD8;&#x662F;&#x5B89;&#x88C5;&#x70B9;&#xFF0C;&#x7EE7;&#x7EED;&#x524D;&#x8FDB;&#xFF0C;&#x76F4;&#x5230;&#x4E0D;&#x662F;&#x5B89;&#x88C5;&#x70B9;<br>&#xFF08;3&#xFF09;&#x82E5;&#x5F53;&#x524D;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x652F;&#x6301;&#x8FDE;&#x63A5;&#xFF0C;&#x5219;<br>&#x8DDF;&#x968F;&#x8FDE;&#x63A5;do_follow_link()&#xFF1A;&#x89C1;7<br>        &#x82E5;&#x5F53;&#x524D;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0D;&#x652F;&#x6301;&#x8FDE;&#x63A5;&#xFF0C;&#x5219;&#xFF08;&#x5DF2;&#x7ECF;&#x627E;&#x5230;&#x76EE;&#x6807;&#x8282;&#x70B9;&#xFF09;
+&#x91CA;&#x653E;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x9879;<br>&#x5C06;&#x76EE;&#x6807;&#x8282;&#x70B9;&#x7684;&#x76EE;&#x5F55;&#x9879;&#x7F6E;&#x4E3A;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x9879;  </p>
+<h4 id="4cachedlookup-------&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6587;&#x4EF6;&#x540D;&#x5BF9;&#x5E94;&#x7684;dentry"><a name="4cachedlookup-------&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6587;&#x4EF6;&#x540D;&#x5BF9;&#x5E94;&#x7684;dentry" class="anchor-navigation-ex-anchor" href="#4cachedlookup-------&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6587;&#x4EF6;&#x540D;&#x5BF9;&#x5E94;&#x7684;dentry"><i class="fa fa-link" aria-hidden="true"></i></a>4.cached_lookup() -----&gt; &#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x627E;&#x5230;&#x6587;&#x4EF6;&#x540D;&#x5BF9;&#x5E94;&#x7684;dentry</h4>
+<p>&#xFF08;1&#xFF09;&#x518D;hash&#x4E00;&#x6B21;<br>&#xFF08;2&#xFF09;&#x627E;&#x5230;&#x6587;&#x4EF6;&#x540D;&#x5728;hash&#x8868;&#x4E2D;&#x7684;&#x961F;&#x5217;&#x7684;&#x5934;&#x7ED3;&#x70B9;<br>dentry&#x5728;&#x5185;&#x5B58;&#x662F;&#x4EE5;hash&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x5728;&#x7684;<br>&#xFF08;3&#xFF09;&#x4ECE;&#x961F;&#x5217;&#x4E2D;dentry&#x4F9D;&#x6B21;&#x548C;&#x76EE;&#x6807;dentry&#x6BD4;&#x8F83;<br>&#xFF08;4&#xFF09;&#x82E5;&#x627E;&#x5230;&#x4E86;&#x6B63;&#x5E38;&#x7684;dentry&#xFF0C;&#x5BF9;&#x627E;&#x5230;&#x7684;dentry&#x8FDB;&#x884C;&#x9A8C;&#x8BC1;<br>&#x82E5;&#x672A;&#x627E;&#x5230;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x7A7A;  </p>
+<h4 id="5reallookup-------&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x6587;&#x4EF6;&#x540D;&#x7684;dentry"><a name="5reallookup-------&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x6587;&#x4EF6;&#x540D;&#x7684;dentry" class="anchor-navigation-ex-anchor" href="#5reallookup-------&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x6587;&#x4EF6;&#x540D;&#x7684;dentry"><i class="fa fa-link" aria-hidden="true"></i></a>5.real_lookup -----&gt; &#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x6587;&#x4EF6;&#x540D;&#x7684;dentry</h4>
+<p>&#xFF08;1&#xFF09;&#x518D;&#x6B21;&#x786E;&#x8BA4;&#x4E0D;&#x5728;&#x5185;&#x5B58;&#x4E2D;cached_lookup()&#xFF1A;&#x89C1;4<br>&#xFF08;2&#xFF09;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x5206;&#x914D; &#x4E00;&#x4E2A;dentry&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x5E76;&#x5BF9;&#x5176;&#x521D;&#x59CB;&#x5316;<br>&#xFF08;3&#xFF09;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x7531;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x4EE3;&#x8868;&#x7684;&#x90A3;&#x4E2A;&#x76EE;&#x5F55;&#x4E2D;&#x5BFB;&#x627E;&#x76EE;&#x6807;&#x8282;&#x70B9;&#x7684;&#x76EE;&#x5F55;&#x9879;&#xFF08;&#x7ED3;&#x5408;&#x6587;&#x4EF6;&#x548C;&#x8BFB;&#x5199;&#x548C;&#x8BBE;&#x5907;&#x9A71;&#x52A8;&#xFF09;&#xFF0C;&#x5E76;&#x6839;&#x636E;&#x5176;&#x5185;&#x5BB9;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x4E2D;&#x7684;dentry<br>&#x4E66;&#x628A;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x79F0;&#x4E3A;&#x7236;&#x8282;&#x70B9;&#xFF0C;&#x628A;&#x76EE;&#x6807;&#x8282;&#x70B9;&#x79F0;&#x4E3A;&#x5F53;&#x524D;&#x8282;&#x70B9;&#xFF0C;&#x4F46;&#x6211;&#x8BA4;&#x4E3A;&#x4E9B;&#x65F6;&#x8FD8;&#x6CA1;&#x6709;&#x8FDB;&#x884C;&#x8282;&#x70B9;&#x5207;&#x6362;&#xFF0C;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x4E2D;&#x9488;&#x5BF9;&#x7684;&#x8282;&#x70B9;&#x8FD8;&#x662F;&#x4E0B;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x53EA;&#x662F;&#x76F8;&#x5BF9;&#x4E8E;&#x8FD9;&#x4E00;&#x6BB5;&#x4EE3;&#x7801;&#x6765;&#x8BF4;&#x7B97;&#x662F;&#x5F53;&#x524D;&#x8282;&#x70B9;&#xFF0C;&#x4F46;&#x76F8;&#x5BF9;&#x4E8E;&#x6574;&#x7BC7;&#x6587;&#x7AE0;&#x6765;&#x8BF4;&#xFF0C;&#x662F;&#x4E0B;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x6216;&#x662F;&#x76EE;&#x6807;&#x8282;&#x70B9;<br>&#xFF08;4&#xFF09;&#x7531;&#x76EE;&#x5F55;&#x9879;&#x5F97;&#x5230;i&#x8282;&#x70B9;&#x53F7;<br>&#xFF08;5&#xFF09;&#x4ECE;i&#x8282;&#x70B9;&#x53F7;&#x5F97;&#x5230;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#xFF0C;&#x5982;&#x679C;&#x5185;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x5C31;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#xFF0C;&#x628A;&#x5E76;&#x5185;&#x5BB9;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x8BFB;&#x8FDB;&#x6765;iget()&#xFF1A;&#x89C1;6<br>&#x8FC7;&#x7A0B;&#x4E0E;3&#x76F8;&#x4F3C;<br>&#xFF08;6&#xFF09;&#x628A;&#x65B0;&#x7533;&#x8BF7;&#x7684;dentry&#x7ED3;&#x6784;&#x6302;&#x5165;i&#x8282;&#x70B9;&#x7684;<code>d_alias</code>&#x961F;&#x5217;&#x4E2D;&#xFF0C;dentry&#x7684;<code>d_inode</code>&#x6307;&#x9488;&#x4E5F;&#x6307;&#x5411;i&#x8282;&#x70B9;&#x7ED3;&#x6784;<br>&#x4E00;&#x4E2A;dentry&#x6307;&#x5411;&#x4E00;&#x4E2A;inode&#xFF0C;&#x4F46;&#x4E00;&#x4E2A;inode&#x53EF;&#x4EE5;&#x6307;&#x5411;&#x591A;&#x4E2A;dentry&#xFF0C;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x6709;&#x6548;&#x7684;&#x8DEF;&#x5F84;&#x540D;&#x4E00;&#x5B9A;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x4E0D;&#x4E00;&#x5B9A;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x8DEF;&#x5F84;&#x540D;&#xFF08;&#x6216;&#x6587;&#x4EF6;&#x540D;&#xFF09;<br>&#xFF08;7&#xFF09;&#x628A;dentry&#x7ED3;&#x6784;&#x6302;&#x5165;hash&#x961F;&#x5217;<br>4&#x4E2D;&#x6B63;&#x662F;&#x5229;&#x7528;&#x8FD9;&#x4E2A;hash&#x961F;&#x5217;&#x6765;&#x67E5;&#x627E;dentry&#x7ED3;&#x6784;&#x7684;  </p>
+<h4 id="6iget------&#x4ECE;i&#x8282;&#x70B9;&#x53F7;&#x5F97;&#x5230;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#xFF0C;&#x5982;&#x679C;&#x5185;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x5C31;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#xFF0C;&#x628A;&#x5E76;&#x5185;&#x5BB9;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x8BFB;&#x8FDB;&#x6765;"><a name="6iget------&#x4ECE;i&#x8282;&#x70B9;&#x53F7;&#x5F97;&#x5230;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#xFF0C;&#x5982;&#x679C;&#x5185;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x5C31;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#xFF0C;&#x628A;&#x5E76;&#x5185;&#x5BB9;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x8BFB;&#x8FDB;&#x6765;" class="anchor-navigation-ex-anchor" href="#6iget------&#x4ECE;i&#x8282;&#x70B9;&#x53F7;&#x5F97;&#x5230;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#xFF0C;&#x5982;&#x679C;&#x5185;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x5C31;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#xFF0C;&#x628A;&#x5E76;&#x5185;&#x5BB9;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x8BFB;&#x8FDB;&#x6765;"><i class="fa fa-link" aria-hidden="true"></i></a>6.iget() ----&gt; &#x4ECE;i&#x8282;&#x70B9;&#x53F7;&#x5F97;&#x5230;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#xFF0C;&#x5982;&#x679C;&#x5185;&#x5B58;&#x4E2D;&#x6CA1;&#x6709;&#xFF0C;&#x5C31;&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#xFF0C;&#x628A;&#x5E76;&#x5185;&#x5BB9;&#x4ECE;&#x78C1;&#x76D8;&#x4E2D;&#x8BFB;&#x8FDB;&#x6765;</h4>
+<p>&#xFF08;1&#xFF09;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x5BFB;&#x627E;i&#x8282;&#x70B9;&#x53F7;&#x5BF9;&#x5E94;&#x7684;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#xFF0C;&#x901A;&#x8FC7;hash&#x8868;<br>&#xFF08;2&#xFF09;&#x82E5;&#x672A;&#x627E;&#x5230;&#xFF0C;&#x5219;<br>&#x7533;&#x8BF7;&#x4E00;&#x4E2A;i&#x8282;&#x70B9;&#x7ED3;&#x6784;<br>&#x518D;&#x8BD5;&#x4E00;&#x6B21;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x5BFB;&#x627E;i&#x8282;&#x70B9;&#x53F7;&#x5BF9;&#x5E94;&#x7684;i&#x8282;&#x70B9;&#x7ED3;&#x6784;<br>&#x628A;&#x65B0;&#x7533;&#x8BF7;&#x7684;i&#x8282;&#x70B9;&#x7ED3;&#x6784;&#x94FE;&#x5165;&#x961F;&#x5217;<br>&#x4E3A;&#x4EC0;&#x4E48;&#x65B0;&#x7533;&#x8BF7;&#x7684;i&#x8282;&#x70B9;&#x521D;&#x59CB;&#x5316;<br>&#x8BFB;&#x5165;i&#x8282;&#x70B9;  </p>
+<h4 id="7dofollorlink-------&#x8DDF;&#x968F;&#x8FDE;&#x63A5;"><a name="7dofollorlink-------&#x8DDF;&#x968F;&#x8FDE;&#x63A5;" class="anchor-navigation-ex-anchor" href="#7dofollorlink-------&#x8DDF;&#x968F;&#x8FDE;&#x63A5;"><i class="fa fa-link" aria-hidden="true"></i></a>7.<code>do_follor_link()</code> -----&gt; &#x8DDF;&#x968F;&#x8FDE;&#x63A5;</h4>
+<p>&#xFF08;1&#xFF09;&#x83B7;&#x53D6;&#x8FDE;&#x63A5;&#x76EE;&#x6807;&#x7684;&#x8DEF;&#x5F84;&#x540D;<br>&#xFF08;2&#xFF09;&#x8C03;&#x7528;2.path_walk()&#x6765;&#x627E;&#x5230;&#x4EE3;&#x8868;&#x8FDE;&#x63A5;&#x5BF9;&#x8C61;&#x7684;dentry&#x7ED3;&#x6784;<br>&#x56E0;&#x4E3A;&#x7B26;&#x53F7;&#x8FDE;&#x63A5;&#x662F;&#x8DE8;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x662F;VFS&#x5C42;&#x6B21;&#x7684;&#x8C03;&#x7528;  </p>
+<h4 id="8lastwithslashes"><a name="8lastwithslashes" class="anchor-navigation-ex-anchor" href="#8lastwithslashes"><i class="fa fa-link" aria-hidden="true"></i></a>8.last_with_slashes()</h4>
+<p>&#x8DEF;&#x5F84;&#x540D;&#x672B;&#x5C3E;&#x6709;&#x4E2A;&apos;/&apos;&#x5B57;&#x7B26;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x8DEF;&#x5F84;&#x540D;&#x7684;&#x7EC8;&#x70B9;&#x662F;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x4E14;&#xFF0C;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x4EE3;&#x8868;&#x7740;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#xFF0C;&#x5C31;&#x4E00;&#x5B9A;&#x8981;&#x524D;&#x8FDB;&#x5230;&#x6240;&#x8FDE;&#x63A5;&#x7684;&#x5BF9;&#x8C61;&#xFF08;&#x4E5F;&#x662F;&#x4E2A;&#x76EE;&#x5F55;&#xFF09;</p>
+<h4 id="9lastcomponent"><a name="9lastcomponent" class="anchor-navigation-ex-anchor" href="#9lastcomponent"><i class="fa fa-link" aria-hidden="true"></i></a>9.last_component()</h4>
+<p>&#x4E0E;3-7&#x7684;&#x8FC7;&#x7A0B;&#x51E0;&#x4E4E;&#x4E00;&#x6837;&#xFF0C;&#x7A0D;&#x5FAE;&#x6709;&#x4E00;&#x70B9;&#x533A;&#x522B;&#xFF0C;&#x89C9;&#x5F97;&#x4E0D;&#x91CD;&#x8981;&#xFF0C;&#x4E0D;&#x8BE6;&#x7EC6;&#x5199;&#x51FA;&#xFF0C;&#x89C1;&#x300A;Linux&#x5185;&#x6838;&#x6E90;&#x4EE3;&#x7801;&#x60C5;&#x666F;&#x5206;&#x6790;&#x300B;  &#x4E0A;&#x518C;P466                                                                                                                           </p>
+<div id="gitalk-container"></div>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="2012-05-08-sys_execve.html" class="navigation navigation-prev " aria-label="Previous page: Linux2.4系统调用sys_execve">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="2012-05-14-install-a-file-system-in-linux2.4.html" class="navigation navigation-next " aria-label="Next page: Linux2.4安装一个文件系统">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"layout":"post","title":"Linux2.4从路径名到目标结点","category":["操作系统"],"tags":["linux2.6"],"level":"1.4.2","depth":2,"next":{"title":"Linux2.4安装一个文件系统","level":"1.4.3","depth":2,"path":"2_4/2012-05-14-install-a-file-system-in-linux2.4.md","ref":"2_4/2012-05-14-install-a-file-system-in-linux2.4.md","articles":[]},"previous":{"title":"Linux2.4系统调用sys_execve","level":"1.4.1","depth":2,"path":"2_4/2012-05-08-sys_execve.md","ref":"2_4/2012-05-08-sys_execve.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex","katex-plus","alerts","mygitalk","github","github-buttons","splitter","-sharing","sharing-plus","donate","copy-code-button","anchor-navigation-ex","sectionx","click-reveal"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/windmissing/linux-kernel-notes"},"splitter":{},"search":{},"sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"donate":{"alipay":"http://windmissing.github.io/images/2020/alipay.jpg","alipayText":"支付宝打赏","button":"赏","title":"","wechat":"http://windmissing.github.io/images/2020/weixin.jpg","wechatText":"微信打赏"},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":2},"click-reveal":{},"sectionx":{},"highlight":{},"anchor-navigation-ex":{"mode":"float","pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"showLevel":true,"tocLevel1Icon":"fa fa-hand-o-right","tocLevel2Icon":"fa fa-hand-o-right","tocLevel3Icon":"fa fa-hand-o-right","showGoTop":true,"isShowTocTitleIcon":true,"printLog":false,"multipleH1":true,"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false}},"katex-plus":{},"alerts":{},"github-buttons":{"repo":"windmissing/linux-kernel-notes","types":["star","watch","fork"],"size":"small"},"copy-code-button":{},"mygitalk":{"flipMoveOptions":{},"clientID":"531979adb4f4d8458549","number":-1,"perPage":10,"proxy":"https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token","admin":["windmissing"],"createIssueManually":false,"distractionFreeMode":false,"repo":"linux-kernel-notes","owner":"windmissing","enableHotKey":true,"clientSecret":"1ac38be7411ae8e034bb8fb1b4a297254652141d","pagerDirection":"last","labels":["Gitalk"]},"sharing":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"windmissing","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"3.2.3"},"file":{"path":"2_4/2012-05-11-route-from-path-name-to-file-node-in-linux2.4.md","mtime":"2020-11-14T13:26:12.508Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-14T13:27:38.435Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+        
+    
+        
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-mygitalk/mygitalk.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing-plus/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-copy-code-button/toggle.js"></script>
+        
+    
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sectionx/sectionx.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-click-reveal/click_reveal.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
